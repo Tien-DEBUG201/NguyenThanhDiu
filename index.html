@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Chúc Mừng Sinh Nhật</title>
+  <link rel="stylesheet" href="./style.css" />
+
+  <!-- import map cho Three.js -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+      "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js",
+      "three/examples/jsm/loaders/FontLoader.js": "https://unpkg.com/three@0.152.2/examples/jsm/loaders/FontLoader.js",
+      "three/examples/jsm/geometries/TextGeometry.js": "https://unpkg.com/three@0.152.2/examples/jsm/geometries/TextGeometry.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <!-- Màn hình nhập mật khẩu -->
+  <div id="lock-screen">
+    <div class="lock-box">
+      <h2>Nhập mật khẩu</h2>
+      <input type="password" id="password" placeholder="****" maxlength="4" />
+      <button id="unlock-btn">Mở khóa</button>
+      <p id="error-msg"></p>
+      <p class="hint">💡 Gợi ý: 2308</p>
+    </div>
+  </div>
+
+  <!-- Nền ma trận -->
+  <canvas id="matrix"></canvas>
+
+  <!-- Chữ chúc mừng -->
+  <div id="message"></div>
+
+  <!-- Nút quà -->
+  <div id="gift" style="display:none;">
+    <button id="gift-btn">🎁 Quà nè</button>
+  </div>
+
+  <!-- Khung tinh cầu (ẩn ban đầu) -->
+  <div id="container" style="display:none;"></div>
+
+  <!-- Nhạc (đặt trong assets, preload để hạn chế delay) -->
+  <audio id="bg-music" preload="auto">
+    <source src="./assets/Khobau.mp3" type="audio/mpeg" />
+    <!-- Bạn có thể bổ sung ogg/m4a nếu cần -->
+  </audio>
+
+  <!-- script Three.js -->
+   <script type="module" src="./main.js" defer></script>
+
+  <!-- script nền & UI -->
+  <script src="./script.js" defer></script>
+  
+</body>
+</html>
