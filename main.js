@@ -21,7 +21,7 @@ document.getElementById('container').appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 0.5;
+controls.autoRotateSpeed = 0.05;
 controls.enabled = false;
 controls.target.set(0, 0, 0);
 controls.enablePan = false;
@@ -86,7 +86,7 @@ const galaxyParameters = {
   outsideColor: new THREE.Color(0x48b8b8),
 };
 
-const defaultHeartImages = Array.from({ length: 2 }, (_, i) => `images/img${i + 1}.jpg`);
+const defaultHeartImages = Array.from({ length: 4 }, (_, i) => `images/ThanhDiu${i + 1}.jpg`);
 
 const heartImages = [
   ...(window.dataCCD?.data?.heartImages || []),
@@ -326,42 +326,49 @@ for (let group = 0; group < numGroups; group++) {
   img.crossOrigin = "Anonymous";
   img.src = heartImages[group];
   img.onload = () => {
-    const neonTexture = createNeonTexture(img, 256);
+  const neonTexture = createNeonTexture(img, 512);
+  neonTexture.minFilter = THREE.LinearFilter;
+  neonTexture.magFilter = THREE.LinearFilter;
+  neonTexture.generateMipmaps = true;
 
-    // Material khi ở gần
-    const materialNear = new THREE.PointsMaterial({
-      size: 1.8,
-      map: neonTexture,
-      transparent: false,
-      alphaTest: 0.2,
-      depthWrite: true,
-      depthTest: true,
-      blending: THREE.NormalBlending,
-      vertexColors: true
-    });
+  // Khi ở gần
+  const materialNear = new THREE.PointsMaterial({
+    size: 2.0,                // nhỏ vừa phải
+    sizeAttenuation: true,    // <-- quan trọng: co/giãn theo khoảng cách camera
+    map: neonTexture,
+    transparent: true,
+    alphaTest: 0.05,
+    depthWrite: true,
+    depthTest: true,
+    blending: THREE.AdditiveBlending,
+    vertexColors: true,
+    opacity: 0.0              // ẩn khi chưa chạm tinh cầu
+  });
 
-    // Material khi ở xa
-    const materialFar = new THREE.PointsMaterial({
-      size: 1.8,
-      map: neonTexture,
-      transparent: true,
-      alphaTest: 0.2,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      vertexColors: true
-    });
+  // Khi ở xa
+  const materialFar = new THREE.PointsMaterial({
+    size: 1.5,
+    sizeAttenuation: true,    // <-- cũng cần bật
+    map: neonTexture,
+    transparent: true,
+    alphaTest: 0.05,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    vertexColors: true,
+    opacity: 0.0
+  });
 
-    const pointsObject = new THREE.Points(groupGeometryFar, materialFar);
-    pointsObject.position.set(cx, cy, cz); // Đặt lại vị trí ban đầu trong scene
+  const pointsObject = new THREE.Points(groupGeometryFar, materialFar);
+  pointsObject.position.set(cx, cy, cz);
 
-    // Lưu trữ các trạng thái để chuyển đổi sau này
-    pointsObject.userData.materialNear = materialNear;
-    pointsObject.userData.geometryNear = groupGeometryNear;
-    pointsObject.userData.materialFar = materialFar;
-    pointsObject.userData.geometryFar = groupGeometryFar;
+  pointsObject.userData.materialNear = materialNear;
+  pointsObject.userData.geometryNear = groupGeometryNear;
+  pointsObject.userData.materialFar = materialFar;
+  pointsObject.userData.geometryFar = groupGeometryFar;
 
-    scene.add(pointsObject);
-  };
+  scene.add(pointsObject);
+};
+
 }
 
 
@@ -743,7 +750,7 @@ function createTextRings() {
     ringGroup.userData = {
       ringRadius: ringRadius,
       angleOffset: 0.15 * Math.PI * 0.5,
-      speed: 0.002 + 0.00025, // Tốc độ quay
+      speed: 0.0015, // Tốc độ quay
       tiltSpeed: 0, rollSpeed: 0, pitchSpeed: 0, // Tốc độ lắc
       tiltAmplitude: Math.PI / 3, rollAmplitude: Math.PI / 6, pitchAmplitude: Math.PI / 8, // Biên độ lắc
       tiltPhase: Math.PI * 2, rollPhase: Math.PI * 2, pitchPhase: Math.PI * 2, // Pha lắc
@@ -819,7 +826,7 @@ let galaxyAudio = null;
 
 function preloadGalaxyAudio() {
   const audioSources = [
-   "https://cdn.jsdelivr.net/gh/caochungdat/caochungdat.github.io@main/assets/audio/galaxy1.mp3",
+   "",
   ];
 
   const randomIndex = Math.floor(Math.random() * audioSources.length);
@@ -983,52 +990,72 @@ function animate() {
   }
 
   if (!introStarted) {
-    // Trạng thái trước khi intro bắt đầu
-    fadeOpacity = 0.1;
-    scene.traverse(obj => {
-      if (obj.name === 'starfield') {
-        if (obj.points && obj.material.opacity !== undefined) {
-          obj.material.transparent = false;
-          obj.material.opacity = 1;
-        }
-        return;
+  // Trạng thái trước khi intro bắt đầu
+  fadeOpacity = 0.1;
+
+  scene.traverse(obj => {
+    if (obj.name === 'starfield') {
+      if (obj.points && obj.material.opacity !== undefined) {
+        obj.material.transparent = false;
+        obj.material.opacity = 1;
       }
-      if (obj.userData.isTextRing || (obj.parent && obj.parent.userData && obj.parent.userData.isTextRing)) {
-        if (obj.material && obj.material.opacity !== undefined) {
-          obj.material.transparent = false;
-          obj.material.opacity = 1;
-        }
-        if (obj.material && obj.material.color) {
-          obj.material.color.set(0xffffff);
-        }
-      } else if (obj !== planet && obj !== centralGlow && obj !== hintIcon && obj.type !== 'Scene' && !obj.parent.isGroup) {
-        if (obj.material && obj.material.opacity !== undefined) {
-          obj.material.transparent = true;
-          obj.material.opacity = 0.1;
-        }
-      }
-    });
-    planet.visible = true;
-    centralGlow.visible = true;
-  } else {
-    // Trạng thái sau khi intro bắt đầu
-    scene.traverse(obj => {
-      if (!(obj.userData.isTextRing || (obj.parent && obj.parent.userData && obj.parent.userData.isTextRing) || obj === planet || obj === centralGlow || obj.type === 'Scene')) {
-        if (obj.material && obj.material.opacity !== undefined) {
-          obj.material.transparent = true;
-          obj.material.opacity = fadeOpacity;
-        }
-      } else {
-        if (obj.material && obj.material.opacity !== undefined) {
-          obj.material.opacity = 1;
-          obj.material.transparent = false;
-        }
+      return;
+    }
+
+    // Nếu là vòng chữ thì cho hiển thị bình thường
+    if (obj.userData.isTextRing || (obj.parent && obj.parent.userData && obj.parent.userData.isTextRing)) {
+      if (obj.material && obj.material.opacity !== undefined) {
+        obj.material.transparent = false;
+        obj.material.opacity = 1;
       }
       if (obj.material && obj.material.color) {
         obj.material.color.set(0xffffff);
       }
-    });
-  }
+    } 
+    // Nếu là cụm ảnh (Points) thì ẩn hoàn toàn
+    else if (obj.isPoints && obj.userData.materialNear && obj.userData.materialFar) {
+      obj.material.transparent = true;
+      obj.material.opacity = 0.0; // ẩn khi chưa chạm tinh cầu
+    }
+    // Các object khác thì mờ đi
+    else if (obj !== planet && obj !== centralGlow && obj !== hintIcon && obj.type !== 'Scene' && !obj.parent.isGroup) {
+      if (obj.material && obj.material.opacity !== undefined) {
+        obj.material.transparent = true;
+        obj.material.opacity = 0.1;
+      }
+    }
+  });
+
+  planet.visible = true;
+  centralGlow.visible = true;
+
+} else {
+  // Trạng thái sau khi intro bắt đầu
+  scene.traverse(obj => {
+    // Fade in ảnh trái tim (Points)
+    if (obj.isPoints && obj.userData.materialNear && obj.userData.materialFar) {
+      obj.material.transparent = true;
+      obj.material.opacity = fadeOpacity; // fade in theo fadeOpacity
+    }
+    // Các object khác hiển thị bình thường
+    else if (!(obj.userData.isTextRing || (obj.parent && obj.parent.userData && obj.parent.userData.isTextRing) || obj === planet || obj === centralGlow || obj.type === 'Scene')) {
+      if (obj.material && obj.material.opacity !== undefined) {
+        obj.material.transparent = true;
+        obj.material.opacity = fadeOpacity;
+      }
+    } else {
+      if (obj.material && obj.material.opacity !== undefined) {
+        obj.material.opacity = 1;
+        obj.material.transparent = false;
+      }
+    }
+
+    if (obj.material && obj.material.color) {
+      obj.material.color.set(0xffffff);
+    }
+  });
+}
+
 
   // Cập nhật sao băng
   for (let i = shootingStars.length - 1; i >= 0; i--) {

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./message.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    crossorigin="anonymous"
+  />
+  <title>Happy birthday</title>
+</head>
+<body>
+  <div class="container">
+    <div class="boxcontainer">
+      <div class="image"><img src="./images/flag.png" alt="" /></div>
+      <div class="text-happybirthday"><img src="./images/texthappy.png" alt="" /></div>
+      <div class="cake"><img src="./images/cake.png" alt="" /></div>
+      <div class="box-balloon">
+        <div class="balloon-item1"><img src="./images/balloon.png" alt="" /></div>
+        <div class="balloon-item1"><img src="./images/balloon.png" alt="" /></div>
+      </div>
+      <div class="box-cloud">
+        <div class="cloud"><img src="./images/cloud.png" alt="" /></div>
+        <div class="cloud"><img src="./images/cloud.png" alt="" /></div>
+      </div>
+      <div class="box-firework">
+        <div class="firework">
+          <img src="./images/firework.png" alt="" />
+          <img src="./images/firework1.png" alt="" id="firework1" />
+        </div>
+        <div class="firework">
+          <img src="./images/firework.png" alt="" />
+          <img src="./images/firework1.png" alt="" id="firework1" />
+        </div>
+      </div>
+      <div class="paperCannons"><img src="./images/paperCannons1.png" alt="" /></div>
+      <div class="box-giftbox">
+        <img src="./images/giftbox.png" alt="" />
+        <img src="./images/giftbox.png" alt="" />
+        <img src="./images/giftbox.png" alt="" />
+        <img src="./images/giftbox.png" alt="" />
+        <img src="./images/giftbox.png" alt="" />
+        <img src="./images/giftbox.png" alt="" />
+      </div>
+      <div class="mail"><i class="fa-regular fa-envelope"></i></div>
+      <div class="boxcute">
+        <div class="cute1"><img src="./images/cute.png" alt="" /></div>
+        <div class="cute2"><img src="./images/cute.png" alt="" /></div>
+      </div>
+    </div>
+
+    <!-- Hộp thư -->
+    <div class="boxMail">
+      <i class="fa-solid fa-xmark"></i>
+      <div class="boxMail-container">
+        <div class="card1">
+          <div class="userImg"><img src="./images/Picture3.jpg" alt="" /></div>
+          <h3>Happy birthday</h3>
+          <div class="imageCute"><img src="./images/cute1.png" alt="" /></div>
+        </div>
+        <div class="card2">
+          <div class="card2-content">
+            <h3>Gửi Dịu</h3>
+            <h2>
+              
+            </h2>
+            <div class="imageCute2"><img src="./images/cute2.png" alt="" /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tim bay theo chuột
+    document.addEventListener('mousemove', function(e) {
+      let body = document.querySelector('body');
+      let heart = document.createElement('span');
+      heart.style.left = e.offsetX + 'px';
+      heart.style.top = e.offsetY + 'px';
+      let size = Math.random() * 10;
+      heart.style.width = 4*size + 'px';
+      heart.style.height = 4*size + 'px';
+      heart.style.transform = 'rotate(' + (Math.random()*360) + 'deg)';
+      body.appendChild(heart);
+      setTimeout(()=>heart.remove(), 1000);
+    });
+
+    // Hộp thư
+    let mailBox = document.querySelector('.mail');
+    let boxmail = document.querySelector('.boxMail');
+    let close = document.querySelector('.fa-xmark');
+
+    mailBox.onclick = function() {
+      mailBox.classList.toggle('active');
+      boxmail.classList.add('active');
+
+      // Delay trước khi tạo nút quay lại (sau 6 giây)
+      setTimeout(() => {
+        if (!document.getElementById("back-btn")) {
+          const backBtn = document.createElement("button");
+          backBtn.id = "back-btn";
+          backBtn.textContent = "⬅ Quay lại";
+
+          backBtn.style.position = "absolute";
+          backBtn.style.bottom = "20px";
+          backBtn.style.left = "50%";
+          backBtn.style.transform = "translateX(-50%)";
+          backBtn.style.padding = "8px 16px";
+          backBtn.style.fontSize = "16px";
+          backBtn.style.borderRadius = "8px";
+          backBtn.style.background = "#ff6699";
+          backBtn.style.color = "#fff";
+          backBtn.style.border = "none";
+          backBtn.style.cursor = "pointer";
+          backBtn.style.zIndex = "999";
+
+          backBtn.addEventListener("click", () => {
+            window.location.href = "./index.html?fromMessage=true";
+          });
+
+          boxmail.appendChild(backBtn);
+        }
+      }, 6000); // 6 giây delay, thay đổi nếu muốn
+    };
+
+    close.addEventListener('click', function() {
+      boxmail.classList.remove('active');
+    });
+  </script>
+</body>
+</html>

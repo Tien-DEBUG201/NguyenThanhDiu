@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
-const chars = "HAPPY BIRTH DAY";
+const chars = "HAPPY BIRTH DAY THANH DIU";
 const fontSize = 16;
 const columns = canvas.width / fontSize;
 const drops = Array(Math.floor(columns)).fill(1);
@@ -28,7 +28,7 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 50);
 
-// Hiển thị chữ lần lượt
+
 const messages = ["Chúc Mừng", "Sinh Nhật", "Thanh Dịu"];
 let msgIndex = 0;
 const messageDiv = document.getElementById("message");
@@ -39,9 +39,9 @@ function showNextMessage() {
         msgIndex++;
         setTimeout(showNextMessage, 2000);
     } else {
-        // Ẩn dòng chữ "Thanh Dịu"
+
         messageDiv.textContent = "";
-        // Sau khi hết lời chúc -> hiện ảnh và nút
+
         showGift();
     }
 }
@@ -52,17 +52,28 @@ function showGift() {
 
     // Ảnh
     const img = document.createElement("img");
-    img.src = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSkfdu__3_E7RZjqcmZd9RHxazLkfqyP5UFYWr1Wfk8oLAImJKWEHjoj_keK6b2HlHgEeSaO30RCr6ShExwRUCUOSVGEZBKBWkZpyLI-j4R"; // Đặt ảnh bạn muốn vào cùng thư mục
+    img.src = "./images/ThanhDiu4.jpg";
+    img.style.maxWidth = "300px";
+    img.style.borderRadius = "10px";
     giftDiv.appendChild(img);
+    giftDiv.appendChild(document.createElement("br"));
 
     // Nút quà
-    const btn = document.createElement("button");
-    btn.textContent = "Quà nè 🎁";
-    btn.addEventListener("click", () => {
-        // Ẩn khung quà
+    const btnGift = document.createElement("button");
+    btnGift.textContent = "🎁 Quà nè";
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("fromMessage") === "true") {
+        btnGift.textContent = "🎁 Mở quà";
+        btnGift.style.display = "inline-block";
+    } else {
+        btnGift.style.display = "none"; // ẩn nếu lần đầu
+    }
+
+    btnGift.addEventListener("click", () => {
         giftDiv.remove();
 
-        // Tạo container tinh cầu nếu chưa có
+
         let container = document.getElementById("container");
         if (!container) {
             container = document.createElement("div");
@@ -71,21 +82,27 @@ function showGift() {
         }
         container.style.display = "block";
 
-        // 📌 Gọi hàm tinh cầu của bạn
+        // Hiển thị ảnh quà
         if (typeof initTinhCau === "function") {
-            initTinhCau(); // Hàm này nằm trong file tinh cầu riêng của bạn
+            initTinhCau();
         } else {
-            console.error("Chưa tìm thấy hàm initTinhCau từ file tinh cầu!");
+            console.error("Chưa tìm thấy hàm initTinhCau!");
         }
     });
 
-    giftDiv.appendChild(document.createElement("br"));
-    giftDiv.appendChild(btn);
+    // Nút lời nhắn
+    const btnMsg = document.createElement("button");
+    btnMsg.textContent = "💌 Lời nhắn";
+    btnMsg.addEventListener("click", () => {
+        window.location.href = "./message.html";
+    });
 
+    giftDiv.appendChild(btnGift);
+    giftDiv.appendChild(btnMsg);
     document.body.appendChild(giftDiv);
 }
 
-// Phát nhạc
+// Nhạc nền
 const bgMusic = document.getElementById("bg-music");
 
 // Xử lý mở khóa
@@ -97,5 +114,15 @@ document.getElementById("unlock-btn").addEventListener("click", () => {
         setTimeout(showNextMessage, 2000);
     } else {
         document.getElementById("error-msg").textContent = "Sai mật khẩu!";
+    }
+});
+
+// Khi quay lại từ message.html
+window.addEventListener("load", () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("fromMessage") === "true") {
+        document.getElementById("lock-screen").style.display = "none";
+        bgMusic.play();
+        showGift();
     }
 });
