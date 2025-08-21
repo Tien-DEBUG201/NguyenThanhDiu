@@ -1303,71 +1303,59 @@ span::before{
   background: #ff3366;
 }
 
-/* ======================= Responsive ======================= */
-
-/* Mobile nhỏ (dưới 480px) */
-@media (max-width: 480px) {
-  #message {
-    font-size: 28px;
-    text-align: center;
-    white-space: normal;
-  }
-
-  .lock-box {
-    width: 90%;
-    padding: 15px;
-  }
-
-  .lock-box input,
-  .lock-box button {
-    width: 100%;
-    font-size: 16px;
-  }
-
-  #gift-box img {
-    max-width: 200px;
-  }
-
-  #gift-box button {
-    font-size: 16px;
-    padding: 10px;
-    width: 100%;
-  }
-
-  .popup-content {
+/* ================== Responsive override ================== */
+.container .boxcontainer {
     width: 95%;
-    padding: 15px;
+    max-width: 700px;
+    height: auto;
+}
+
+.container .image > img,
+.container .cake img,
+.container .cloud > img,
+.container .cute1 img,
+.container .cute2 img,
+.text-happybirthday img {
+  max-width: 100%;
+  height: auto;
+}
+
+.text-happybirthday img {
+  max-width: 60%;
+}
+
+@media (max-width: 900px) {
+  .boxMail .boxMail-container {
+    width: 95%;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .boxMail .boxMail-container .card1,
+  .boxMail .boxMail-container .card2 {
+    width: 100%;
+    height: auto;
+  }
+
+  .boxMail .boxMail-container .card1 h3 {
+    font-size: 28px;
+  }
+
+  .boxMail .boxMail-container .card2 h2 {
+    font-size: 14px;
   }
 }
 
-/* Tablet (481px – 768px) */
-@media (max-width: 768px) {
-  #message {
-    font-size: 40px;
+@media (max-width: 600px) {
+  .container .cake img {
+    width: 60%;
   }
 
-  .lock-box {
-    width: 80%;
+  .boxMail .boxMail-container .card1 h3 {
+    font-size: 22px;
   }
 
-  #gift-box img {
-    max-width: 250px;
-  }
-
-  .popup-content {
-    width: 90%;
+  .boxMail .boxMail-container .card2 h2 {
+    font-size: 13px;
   }
 }
-
-/* Màn hình lớn (trên 1200px) – tối ưu cho desktop wide */
-@media (min-width: 1200px) {
-  #message {
-    font-size: 70px;
-  }
-
-  #gift-box img {
-    max-width: 400px;
-  }
-}
-
-/* ------hết hiệu ứng di chuyển chuột----- */
