@@ -1,8 +1,17 @@
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+  ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+  ctx.scale(dpr, dpr);
+}
+
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
 
 const chars = "HAPPY BIRTH DAY THANH DIU";
 const fontSize = 16;
