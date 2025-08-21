@@ -71,31 +71,128 @@ function showGift() {
     }
 
     btnGift.addEventListener("click", () => {
-        giftDiv.remove();
+  // ❌ giftDiv.remove();
+  giftDiv.style.display = "none";  // chỉ ẩn, không xoá
 
+  let container = document.getElementById("container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "container";
+    document.body.appendChild(container);
+  }
+  container.style.display = "block";
 
-        let container = document.getElementById("container");
-        if (!container) {
-            container = document.createElement("div");
-            container.id = "container";
-            document.body.appendChild(container);
-        }
-        container.style.display = "block";
+  if (typeof initTinhCau === "function") {
+    initTinhCau();
+  } else {
+    console.error("Chưa tìm thấy hàm initTinhCau!");
+  }
+});
 
-        // Hiển thị ảnh quà
-        if (typeof initTinhCau === "function") {
-            initTinhCau();
-        } else {
-            console.error("Chưa tìm thấy hàm initTinhCau!");
-        }
-    });
 
     // Nút lời nhắn
-    const btnMsg = document.createElement("button");
-    btnMsg.textContent = "💌 Lời nhắn";
-    btnMsg.addEventListener("click", () => {
-        window.location.href = "./message.html";
+const btnMsg = document.createElement("button");
+btnMsg.textContent = "💌 Lời nhắn";
+btnMsg.addEventListener("click", () => {
+  console.log("💌 Click nút Lời nhắn");
+
+  const messagePage = document.getElementById("message-page");
+  if (!messagePage) {
+    console.error("#message-page không tồn tại");
+    return;
+  }
+
+  // Bật overlay và ép nó nằm trên cùng
+  Object.assign(messagePage.style, {
+    display: "block",
+    position: "fixed",
+    left: "0",
+    top: "0",
+    width: "100vw",
+    height: "100vh",
+    zIndex: "9999",
+    overflow: "auto",
+    background: "transparent" // hoặc "rgba(0,0,0,0.0)"
+  });
+
+  fetch("./message.html", { cache: "no-store" })
+    .then(res => {
+      console.log("fetch message.html → status:", res.status);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.text();
+    })
+    .then(html => {
+      console.log("message.html length:", html.length);
+      // ... trong handler của btnMsg, sau khi fetch xong:
+      messagePage.innerHTML = html;
+
+      // reset cờ để cho phép init lại trên DOM mới
+      if (messagePage.dataset) {
+        delete messagePage.dataset.inited;
+      }
+
+      // đảm bảo CSS
+      if (!document.querySelector('link[href="./message.css"]')) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "./message.css";
+        document.head.appendChild(link);
+      }
+
+      // nạp message.js nếu chưa có, xong thì init; nếu có rồi thì gọi init luôn
+      if (!document.getElementById("message-script")) {
+        const s = document.createElement("script");
+        s.id = "message-script";
+        s.src = "./message.js";
+        s.defer = true;
+        s.onload = () => initMessage();
+        document.body.appendChild(s);
+      } else {
+        initMessage();
+      }
+
+
+      // Ẩn hộp quà
+      const giftBox = document.getElementById("gift-box");
+      if (giftBox) giftBox.style.display = "none";
+
+      // Đảm bảo CSS đã có
+      if (!document.querySelector('link[href="./message.css"]')) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = "./message.css";
+        document.head.appendChild(link);
+      }
+
+      // Nạp message.js rồi gọi initMessage()
+      function runInit() {
+        if (typeof initMessage === "function") {
+          console.log("Gọi initMessage()");
+          initMessage();
+        } else {
+          // đôi khi script vừa chèn chưa kịp define
+          setTimeout(runInit, 50);
+        }
+      }
+
+      if (!document.getElementById("message-script")) {
+        const s = document.createElement("script");
+        s.id = "message-script";
+        s.src = "./message.js";
+        s.defer = true;
+        s.onload = runInit;
+        document.body.appendChild(s);
+      } else {
+        runInit();
+      }
+    })
+    .catch(err => {
+      console.error("Lỗi khi load message.html:", err);
+      alert("Không tải được lời nhắn. Hãy chạy bằng Live Server (không mở file trực tiếp) và kiểm tra đường dẫn ./message.html");
     });
+});
+
+
 
     giftDiv.appendChild(btnGift);
     giftDiv.appendChild(btnMsg);

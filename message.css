@@ -1303,4 +1303,71 @@ span::before{
   background: #ff3366;
 }
 
+/* ======================= Responsive ======================= */
+
+/* Mobile nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  #message {
+    font-size: 28px;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .lock-box {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .lock-box input,
+  .lock-box button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  #gift-box img {
+    max-width: 200px;
+  }
+
+  #gift-box button {
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .popup-content {
+    width: 95%;
+    padding: 15px;
+  }
+}
+
+/* Tablet (481px – 768px) */
+@media (max-width: 768px) {
+  #message {
+    font-size: 40px;
+  }
+
+  .lock-box {
+    width: 80%;
+  }
+
+  #gift-box img {
+    max-width: 250px;
+  }
+
+  .popup-content {
+    width: 90%;
+  }
+}
+
+/* Màn hình lớn (trên 1200px) – tối ưu cho desktop wide */
+@media (min-width: 1200px) {
+  #message {
+    font-size: 70px;
+  }
+
+  #gift-box img {
+    max-width: 400px;
+  }
+}
+
 /* ------hết hiệu ứng di chuyển chuột----- */

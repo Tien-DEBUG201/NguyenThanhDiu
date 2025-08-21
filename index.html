@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="theme-color" content="#000000" />
   <title>Chúc Mừng Sinh Nhật</title>
   <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./message.css" /> <!-- CSS message -->
 
   <!-- import map cho Three.js -->
   <script type="importmap">
@@ -20,42 +23,43 @@
   </script>
 </head>
 <body>
-  <!-- Màn hình nhập mật khẩu -->
-  <div id="lock-screen">
-    <div class="lock-box">
-      <h2>Nhập mật khẩu</h2>
-      <input type="password" id="password" placeholder="****" maxlength="4" />
-      <button id="unlock-btn">Mở khóa</button>
-      <p id="error-msg"></p>
-      <p class="hint">💡 Gợi ý: 2308</p>
-    </div>
-  </div>
-
-  <!-- Nền ma trận -->
-  <canvas id="matrix"></canvas>
-
-  <!-- Chữ chúc mừng -->
-  <div id="message"></div>
-
-  <!-- Nút quà -->
-  <div id="gift" style="display:none;">
-    <button id="gift-btn">🎁 Quà nè</button>
-  </div>
-
-  <!-- Khung tinh cầu (ẩn ban đầu) -->
-  <div id="container" style="display:none;"></div>
-
-  <!-- Nhạc (đặt trong assets, preload để hạn chế delay) -->
+  <!-- Nhạc nền -->
   <audio id="bg-music" preload="auto" loop>
     <source src="./assets/Khobau.mp3" type="audio/mpeg" />
-    <!-- Bạn có thể bổ sung ogg/m4a nếu cần -->
   </audio>
 
-  <!-- script Three.js -->
-   <script type="module" src="./main.js" defer></script>
+  <div id="main-content">
+    <!-- Màn hình nhập mật khẩu -->
+    <div id="lock-screen">
+      <div class="lock-box">
+        <h2>Nhập mật khẩu</h2>
+        <input type="password" id="password" placeholder="****" maxlength="4" />
+        <button id="unlock-btn">Mở khóa</button>
+        <p id="error-msg"></p>
+        <p class="hint">💡 Gợi ý: 2308</p>
+      </div>
+    </div>
 
-  <!-- script nền & UI -->
+    <!-- Nền ma trận -->
+    <canvas id="matrix"></canvas>
+
+    <!-- Chữ chúc mừng -->
+    <div id="message"></div>
+
+    <!-- Khung quà -->
+    <div id="gift" style="display:none;"></div>
+
+    <!-- Khung tinh cầu (ẩn ban đầu) -->
+    <div id="container" style="display:none"></div>
+
+    <!-- Div để load message.html -->
+    <div id="message-page" style="display:none; width:100%; height:100%;"></div>
+  </div>
+
+  <!-- script Three.js -->
+  <script type="module" src="./main.js" defer></script>
+
+  <!-- script message & UI -->
   <script src="./script.js" defer></script>
-  
 </body>
 </html>
