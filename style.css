@@ -186,3 +186,20 @@ body {
     height: auto;
   }
 }
+
+/* ========== Responsive override fix ========== */
+#message {
+  font-size: clamp(24px, 6vw, 60px);
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
+}
+
+#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
