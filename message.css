@@ -1359,3 +1359,57 @@ span::before{
     font-size: 13px;
   }
 }
+
+/* 🎯 Responsive riêng cho iPhone 16 Pro Max */
+@media only screen 
+  and (device-width: 430px) 
+  and (device-height: 932px) 
+  and (-webkit-device-pixel-ratio: 3) {
+
+  .container .boxcontainer {
+    width: 95%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .container .image > img {
+    width: 65%;
+  }
+
+  .text-happybirthday img {
+    max-width: 70%;
+  }
+
+  .container .cake img {
+    width: 55%;
+    height: auto;
+  }
+
+  .boxMail .boxMail-container {
+    flex-direction: column;
+    width: 95%;
+    height: auto;
+  }
+
+  .boxMail .boxMail-container .card1 h3 {
+    font-size: 22px;
+  }
+
+  .boxMail .boxMail-container .card2 h2 {
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 8px;
+  }
+
+  .container .cloud > img,
+  .container .cute1 img,
+  .container .cute2 img {
+    width: 60px;
+    height: auto;
+  }
+
+  .container .mail {
+    width: 70px;
+    height: 70px;
+  }
+}
