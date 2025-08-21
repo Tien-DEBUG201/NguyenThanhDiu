@@ -1303,113 +1303,164 @@ span::before{
   background: #ff3366;
 }
 
-/* ================== Responsive override ================== */
-.container .boxcontainer {
-    width: 95%;
-    max-width: 700px;
-    height: auto;
-}
+/* ======================= Responsive ======================= */
 
-.container .image > img,
-.container .cake img,
-.container .cloud > img,
-.container .cute1 img,
-.container .cute2 img,
-.text-happybirthday img {
-  max-width: 100%;
-  height: auto;
-}
-
-.text-happybirthday img {
-  max-width: 60%;
-}
-
-@media (max-width: 900px) {
-  .boxMail .boxMail-container {
-    width: 95%;
-    height: auto;
-    flex-direction: column;
-  }
-
-  .boxMail .boxMail-container .card1,
-  .boxMail .boxMail-container .card2 {
-    width: 100%;
-    height: auto;
-  }
-
-  .boxMail .boxMail-container .card1 h3 {
+/* Mobile nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  #message {
     font-size: 28px;
+    text-align: center;
+    white-space: normal;
   }
 
-  .boxMail .boxMail-container .card2 h2 {
+  .lock-box {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .lock-box input,
+  .lock-box button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  #gift-box img {
+    max-width: 200px;
+  }
+
+  #gift-box button {
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .popup-content {
+    width: 95%;
+    padding: 15px;
+  }
+}
+
+/* Tablet (481px – 768px) */
+@media (max-width: 768px) {
+  #message {
+    font-size: 40px;
+  }
+
+  .lock-box {
+    width: 80%;
+  }
+
+  #gift-box img {
+    max-width: 250px;
+  }
+
+  .popup-content {
+    width: 90%;
+  }
+}
+
+/* Màn hình lớn (trên 1200px) – tối ưu cho desktop wide */
+@media (min-width: 1200px) {
+  #message {
+    font-size: 70px;
+  }
+
+  #gift-box img {
+    max-width: 400px;
+  }
+}
+
+/* ------hết hiệu ứng di chuyển chuột----- */
+
+/* ==================== Responsive ==================== */
+
+/* Tablet (≤1024px) */
+@media (max-width: 1024px) {
+  .boxcontainer {
+    width: 90vw;
+    height: auto;
+    aspect-ratio: 700 / 450; /* vẫn giữ tỷ lệ khung */
+  }
+
+  .flag img,
+  .happy img,
+  .cake img {
+    width: 50% !important;
+  }
+
+  .giftbox img {
+    width: 25vw;
+    max-width: 180px;
+  }
+
+  .envelope img {
+    width: 18vw;
+    max-width: 120px;
+  }
+
+  .cute img {
+    width: 18vw;
+    max-width: 120px;
+  }
+
+  .cloud img {
+    width: 50vw;
+    max-width: 250px;
+  }
+}
+
+/* Mobile (≤600px) */
+@media (max-width: 600px) {
+  body {
     font-size: 14px;
   }
-}
 
-@media (max-width: 600px) {
-  .container .cake img {
-    width: 60%;
-  }
-
-  .boxMail .boxMail-container .card1 h3 {
-    font-size: 22px;
-  }
-
-  .boxMail .boxMail-container .card2 h2 {
-    font-size: 13px;
-  }
-}
-
-/* 🎯 Responsive riêng cho iPhone 16 Pro Max */
-@media only screen 
-  and (device-width: 430px) 
-  and (device-height: 932px) 
-  and (-webkit-device-pixel-ratio: 3) {
-
-  .container .boxcontainer {
-    width: 95%;
+  .boxcontainer {
+    width: 95vw;
     height: auto;
+    aspect-ratio: 700 / 450;
+    border-radius: 10px;
+  }
+
+  .flag img,
+  .happy img,
+  .cake img {
+    width: 70% !important;
+  }
+
+  .giftbox img {
+    width: 35vw;
+    max-width: 140px;
+  }
+
+  .envelope img {
+    width: 25vw;
+    max-width: 90px;
+  }
+
+  .cute {
+    gap: 3vw;
+  }
+  .cute img {
+    width: 25vw;
+    max-width: 90px;
+  }
+
+  .cloud img {
+    width: 60vw;
+    max-width: 200px;
+  }
+
+  .card2 {
+    font-size: 16px;
     padding: 10px;
   }
 
-  .container .image > img {
-    width: 65%;
-  }
-
-  .text-happybirthday img {
-    max-width: 70%;
-  }
-
-  .container .cake img {
-    width: 55%;
-    height: auto;
-  }
-
-  .boxMail .boxMail-container {
-    flex-direction: column;
-    width: 95%;
-    height: auto;
-  }
-
-  .boxMail .boxMail-container .card1 h3 {
-    font-size: 22px;
-  }
-
-  .boxMail .boxMail-container .card2 h2 {
-    font-size: 13px;
-    line-height: 1.4;
-    padding: 8px;
-  }
-
-  .container .cloud > img,
-  .container .cute1 img,
-  .container .cute2 img {
-    width: 60px;
-    height: auto;
-  }
-
-  .container .mail {
-    width: 70px;
-    height: 70px;
+  /* Bóng bay co lại */
+  .item2 img, 
+  .item4 img {
+    width: 15vw;
+    max-width: 60px;
   }
 }
+
