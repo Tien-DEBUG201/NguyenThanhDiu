@@ -17,7 +17,8 @@ function setupMatrix() {
   canvas.height = Math.floor(cssH * dpr);
 
   // scale context để vẽ theo CSS px
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.scale(dpr, dpr);
   ctx.font = `${fontSize}px monospace`;
 
   columns = Math.floor(cssW / fontSize);
