@@ -176,8 +176,17 @@ function showGift() {
       });
   });
 
-  giftDiv.appendChild(btnGift);
-  giftDiv.appendChild(btnMsg);
+  // Thay vì append trực tiếp vào giftDiv, chúng ta bọc lại
+  const btnContainer = document.createElement("div");
+  btnContainer.className = "btn-container";
+
+  // Thêm hai nút vào container
+  btnContainer.appendChild(btnGift);
+  btnContainer.appendChild(btnMsg);
+
+  // Thêm container vào giftDiv
+  giftDiv.appendChild(btnContainer);
+
   document.body.appendChild(giftDiv);
 }
 
