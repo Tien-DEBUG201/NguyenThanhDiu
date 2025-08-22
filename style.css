@@ -237,4 +237,118 @@ canvas {
   }
 }
 
+#gift-box img {
+  width: 90%;
+  max-width: 320px; /* giữ giới hạn tối đa cho màn to */
+  height: auto;
+  display: block;
+  margin: 0 auto 15px auto;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 600px) {
+  #gift-box img {
+    width: 85%;       /* ảnh nhỏ hơn chút trên điện thoại */
+    max-width: 260px; /* không chiếm hết màn hình */
+  }
+
+  #gift-box .btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #gift-box button {
+    width: 80%;
+    max-width: 220px;
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+}
+
+/* 🎁 Gift Box đẹp hơn */
+#gift-box {
+  text-align: center;
+  padding: 15px;
+}
+
+/* Ảnh quà */
+#gift-box img {
+  width: 90%;
+  max-width: 320px;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px auto;
+
+  border-radius: 16px; /* bo góc mềm mại */
+  box-shadow: 0 4px 25px rgba(255, 105, 180, 0.5); /* bóng hồng nhạt */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  opacity: 0;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+#gift-box img:hover {
+  transform: scale(1.03); /* zoom nhẹ khi hover */
+  box-shadow: 0 6px 35px rgba(255, 105, 180, 0.7);
+}
+
+/* Container nút */
+#gift-box .btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap; /* tự xuống dòng nếu chật */
+}
+
+/* Nút quà & lời nhắn */
+#gift-box button {
+  margin: 5px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+  background: linear-gradient(135deg, #ff99cc, #ff66cc);
+  color: #fff;
+  width: 180px;
+  max-width: 80%;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+#gift-box button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #ff66cc, #ff3399);
+}
+
+/* Animation fade-in cho ảnh */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  #gift-box img {
+    width: 85%;
+    max-width: 260px;
+  }
+
+  #gift-box .btn-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #gift-box button {
+    width: 85%;
+    max-width: 220px;
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+}
+
+
 

@@ -73,7 +73,6 @@ function showGift() {
   // ảnh
   const img = document.createElement("img");
   img.src = "./images/ThanhDiu4.jpg";
-  img.style.maxWidth = "300px";
   img.style.borderRadius = "10px";
   giftDiv.appendChild(img);
   giftDiv.appendChild(document.createElement("br"));
