@@ -67,7 +67,7 @@ function initMessage() {
           });
           boxmail.appendChild(backBtn);
         }
-      }, 6000);
+      }, 23000);
     });
   }
 

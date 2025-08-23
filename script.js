@@ -70,6 +70,9 @@ function showGift() {
   const giftDiv = document.createElement("div");
   giftDiv.id = "gift-box";
 
+  const card = document.createElement("div");
+  card.className = "card";
+
   // ảnh
   const img = document.createElement("img");
   img.src = "./images/ThanhDiu4.jpg";
